@@ -3,6 +3,10 @@ variable "blacklisted-azs" {
   default = [""]
 }
 
+variable "cidr-newbits" {
+  default = 4
+}
+
 variable "environment" {
   default = "staging"
 }
