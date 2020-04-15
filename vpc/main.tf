@@ -67,7 +67,7 @@ resource "aws_route_table_association" "public" {
 resource "aws_subnet" "private" {
   count                   = length(data.aws_availability_zones.available-azs.names)
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = cidrsubnet(var.vpc-cidr, cidr-newbits, count.index + length(data.aws_availability_zones.available-azs))
+  cidr_block              = cidrsubnet(var.vpc-cidr, var.cidr-newbits, count.index + length(data.aws_availability_zones.available-azs))
   availability_zone       = element(data.aws_availability_zones.available-azs.names, count.index)
   map_public_ip_on_launch = false
 
