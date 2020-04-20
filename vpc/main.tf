@@ -34,7 +34,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
   
   tags = {
-    "Name" = "Public subnet - ${element(data.aws_availability_zones.available-azs.names, count.index)}"
+    "Name" = "Public ${var.environment} subnet - ${element(data.aws_availability_zones.available-azs.names, count.index)}"
   }
 }
 
@@ -48,7 +48,7 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    "Name" = "Public Routing Table"
+    "Name" = "Public ${var.environment} Routing Table"
   }
 }
 
@@ -72,7 +72,7 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = false
 
   tags = {
-    "Name" = "Private subnet - ${element(data.aws_availability_zones.available-azs.names, count.index)}"
+    "Name" = "Private ${var.environment} subnet - ${element(data.aws_availability_zones.available-azs.names, count.index)}"
   }
 }
 
@@ -87,7 +87,7 @@ resource "aws_nat_gateway" "main" {
   allocation_id = element(aws_eip.nat.*.id, count.index)
 
   tags = {
-    "Name" = "NAT - ${element(data.aws_availability_zones.available-azs.names, count.index)}"
+    "Name" = "NAT  ${var.environment} - ${element(data.aws_availability_zones.available-azs.names, count.index)}"
   }
 }
 
@@ -96,7 +96,7 @@ resource "aws_route_table" "private" {
   vpc_id  = aws_vpc.main.id
 
   tags = {
-    "Name" = "Private Routing Table"
+    "Name" = "Private ${var.environment} Routing Table"
   }
 }
 
