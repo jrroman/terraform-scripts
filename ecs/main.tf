@@ -7,6 +7,7 @@ locals {
     "Name"        = var.product-name
     "Environment" = var.environment
   }
+  full-name         = "${var.product-name}-${var.environment}"
   cluster-name      = "${var.product-name}-${var.environment}-cluster"
   service-name      = "${var.product-name}-${var.environment}-service"
   task-family-name  = "${var.product-name}-${var.environment}-task"
@@ -29,7 +30,7 @@ data "template_file" "main_app" {
     fargate_cpu     = var.fargate-cpu
     fargate_memory  = var.fargate-memory
     master_key      = var.rails-master-key
-    product_name    = var.product-name
+    product_name    = local.full-name
     region          = var.region
   }
 }

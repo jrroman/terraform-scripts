@@ -2,8 +2,6 @@ variable "app-count" {
   default = 2
 }
 
-variable "app-image" {}
-
 variable "app-port" {
   default = 3000
 }
@@ -37,6 +35,7 @@ variable "region" {
 }
 
 variable "acm-certificate-arn" {}
+variable "app-image" {}
 variable "rails-master-key" {}
 variable "vpc-id" {}
 

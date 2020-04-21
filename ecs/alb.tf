@@ -1,12 +1,12 @@
 resource "aws_alb" "main" {
-  name            = "${var.product-name}-${var.environment}-alb"
+  name            = "${local.full-name}-alb"
   subnets         = data.aws_subnet_ids.public.ids
   security_groups = [aws_security_group.alb.id]
 }
 
 resource "aws_alb_target_group" "main_app" {
-  name        = "${var.product-name}-target-group"
-  port        = 80
+  name        = "${local.full-name}-target-group"
+  port        = var.app-port
   protocol    = "HTTP"
   vpc_id      = var.vpc-id
   target_type = "ip"
