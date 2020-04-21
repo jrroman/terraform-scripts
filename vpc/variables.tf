@@ -12,7 +12,7 @@ variable "environment" {
 }
 
 variable "product-name" {
-  default = "tf-build"
+  default = "terraform-vpc"
 }
 
 variable "region" {
