@@ -12,6 +12,35 @@ data "aws_iam_policy_document" "ecs_task_execution_role" {
   }
 }
 
+resource "aws_iam_role_policy" "ecs_task_policy" {
+  name = "${local.full-name}-ecs-task-policy"
+  role = aws_iam_role.ecs_task_execution_role.id
+
+  policy = <<-EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:BatchGetImage",
+          "ecr:DescribeImages",
+          "ecr:DescribeRepositories",
+          "ecr:GetAuthorizationToken",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:GetRepositoryPolicy",
+          "ecr:ListImages"
+        ],
+        "Effect": "Allow",
+        "Resource": "*"
+      }
+    ]
+  }
+  EOF
+}
+
+
+
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = var.ecs-task-execution-role-name
   assume_role_policy  = data.aws_iam_policy_document.ecs_task_execution_role.json

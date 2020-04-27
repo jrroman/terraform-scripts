@@ -48,12 +48,14 @@ resource "aws_ecs_task_definition" "main_app" {
 }
 
 resource "aws_ecs_service" "main" {
-  name                              = local.service-name
-  cluster                           = aws_ecs_cluster.main.id
-  task_definition                   = aws_ecs_task_definition.main_app.arn
-  desired_count                     = var.app-count
-  launch_type                       = "FARGATE"
-  health_check_grace_period_seconds = 300
+  name                                      = local.service-name
+  cluster                                   = aws_ecs_cluster.main.id
+  task_definition                           = aws_ecs_task_definition.main_app.arn
+  desired_count                             = var.app-count
+  deployment_maximum_percent                = 200
+  deployment_minimum_healthy_percent        = 100
+  launch_type                               = "FARGATE"
+  health_check_grace_period_seconds         = 400
 
   network_configuration {
     security_groups   = [aws_security_group.ecs_tasks.id]
