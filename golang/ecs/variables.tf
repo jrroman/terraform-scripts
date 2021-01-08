@@ -36,6 +36,5 @@ variable "region" {
 
 variable "acm-certificate-arn" {}
 variable "app-image" {}
-variable "rails-master-key" {}
 variable "vpc-id" {}
 

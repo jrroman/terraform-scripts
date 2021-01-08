@@ -29,7 +29,9 @@ resource "aws_iam_role_policy" "ecs_task_policy" {
           "ecr:GetAuthorizationToken",
           "ecr:GetDownloadUrlForLayer",
           "ecr:GetRepositoryPolicy",
-          "ecr:ListImages"
+          "ecr:ListImages",
+          "ssm:GetParameters",
+          "secretsmanager:GetSecretValue"
         ],
         "Effect": "Allow",
         "Resource": "*"
@@ -38,8 +40,6 @@ resource "aws_iam_role_policy" "ecs_task_policy" {
   }
   EOF
 }
-
-
 
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = var.ecs-task-execution-role-name

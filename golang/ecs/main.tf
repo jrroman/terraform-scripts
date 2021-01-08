@@ -29,7 +29,6 @@ data "template_file" "main_app" {
     stage           = var.environment
     fargate_cpu     = var.fargate-cpu
     fargate_memory  = var.fargate-memory
-    master_key      = var.rails-master-key
     product_name    = local.full-name
     region          = var.region
   }

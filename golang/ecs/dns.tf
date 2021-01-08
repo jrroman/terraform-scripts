@@ -1,5 +1,5 @@
 data "aws_route53_zone" "main" {
-  name         = "mdally.com."
+  name         = "showcaseinsights.com"
   private_zone = false
 }
 
