@@ -16,27 +16,27 @@
     "secrets": [
         {
             "name": "DB_HOST",
-            "valueFrom": "arn:aws:secretsmanager:${region}:100581657919:secret:${stage}/db_host"
+            "valueFrom": "arn:aws:secretsmanager:${region}:AWS_ACCOUNT_ID:secret:${stage}/db_host"
         },
         {
             "name": "DB_DRIVER",
-            "valueFrom": "arn:aws:secretsmanager:${region}:100581657919:secret:${stage}/db_driver"
+            "valueFrom": "arn:aws:secretsmanager:${region}:AWS_ACCOUNT_ID:secret:${stage}/db_driver"
         },
         {
             "name": "DB_USER",
-            "valueFrom": "arn:aws:secretsmanager:${region}:100581657919:secret:${stage}/db_user"
+            "valueFrom": "arn:aws:secretsmanager:${region}:AWS_ACCOUNT_ID:secret:${stage}/db_user"
         },
         {
             "name": "DB_PASSWORD",
-            "valueFrom": "arn:aws:secretsmanager:${region}:100581657919:secret:${stage}/db_password"
+            "valueFrom": "arn:aws:secretsmanager:${region}:AWS_ACCOUNT_ID:secret:${stage}/db_password"
         },
         {
             "name": "DB_NAME",
-            "valueFrom": "arn:aws:secretsmanager:${region}:100581657919:secret:${stage}/db_name"
+            "valueFrom": "arn:aws:secretsmanager:${region}:AWS_ACCOUNT_ID:secret:${stage}/db_name"
         },
         {
             "name": "DB_PORT",
-            "valueFrom": "arn:aws:secretsmanager:${region}:100581657919:secret:${stage}/db_port"
+            "valueFrom": "arn:aws:secretsmanager:${region}:AWS_ACCOUNT_ID:secret:${stage}/db_port"
         }
     ],
     "portMappings": [
