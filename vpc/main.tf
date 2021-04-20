@@ -10,8 +10,8 @@ locals {
 }
 
 data "aws_availability_zones" "available-azs" {
-  state                 = "available"
-  blacklisted_zone_ids  = var.blacklisted-azs
+  state             = "available"
+  exclude_zone_ids  = var.blacklisted-azs
 
   filter {
     name    = "opt-in-status"
