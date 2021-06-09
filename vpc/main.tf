@@ -1,17 +1,27 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
+}
+
 provider "aws" {
-  region = var.region
+  profile = var.profile
+  region  = var.region
 }
 
 locals {
   product_tags = {
-    "Name"        = var.product-name
+    "Name"        = var.product_name
     "Environment" = var.environment
   }
 }
 
 data "aws_availability_zones" "available-azs" {
   state             = "available"
-  exclude_zone_ids  = var.blacklisted-azs
+  exclude_zone_ids  = var.blacklisted_azs
 
   filter {
     name    = "opt-in-status"
@@ -20,7 +30,7 @@ data "aws_availability_zones" "available-azs" {
 }
 
 resource "aws_vpc" "main" {
-  cidr_block            = var.vpc-cidr
+  cidr_block            = var.vpc_cidr
   enable_dns_hostnames  = true 
 
   tags = local.product_tags
@@ -29,7 +39,7 @@ resource "aws_vpc" "main" {
 resource "aws_subnet" "public" {
   count                   = length(data.aws_availability_zones.available-azs.names)
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = cidrsubnet(var.vpc-cidr, var.cidr-newbits, count.index)
+  cidr_block              = cidrsubnet(var.vpc_cidr, var.cidr_newbits, count.index)
   availability_zone       = element(data.aws_availability_zones.available-azs.names, count.index)
   map_public_ip_on_launch = true
   
@@ -68,7 +78,7 @@ resource "aws_route_table_association" "public" {
 resource "aws_subnet" "private" {
   count                   = length(data.aws_availability_zones.available-azs.names)
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = cidrsubnet(var.vpc-cidr, var.cidr-newbits, count.index + length(data.aws_availability_zones.available-azs.names))
+  cidr_block              = cidrsubnet(var.vpc_cidr, var.cidr_newbits, count.index + length(data.aws_availability_zones.available-azs.names))
   availability_zone       = element(data.aws_availability_zones.available-azs.names, count.index)
   map_public_ip_on_launch = false
 
