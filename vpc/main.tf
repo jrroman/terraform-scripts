@@ -32,6 +32,7 @@ resource "aws_vpc" "main" {
 
   tags = {
     "Name" = "${local.full_name}-vpc"
+    "Environment" = "${var.environment}"
   }
 }
 
@@ -45,6 +46,7 @@ resource "aws_subnet" "public" {
   tags = {
     "Name" = "pub-${local.full_name}-${element(data.aws_availability_zones.available-azs.names, count.index)}"
     "Tier" = "Public"
+    "Environment" = "${var.environment}"
   }
 }
 
@@ -53,6 +55,7 @@ resource "aws_internet_gateway" "main" {
 
   tags = {
     "Name" = "${local.full_name}-igw"
+    "Environment" = "${var.environment}"
   }
 }
 
@@ -61,6 +64,8 @@ resource "aws_route_table" "public" {
 
   tags = {
     "Name" = "pub-${local.full_name}-rt"
+    "Tier" = "Public"
+    "Environment" = "${var.environment}"
   }
 }
 
@@ -86,6 +91,7 @@ resource "aws_subnet" "private" {
   tags = {
     "Name" = "priv-${local.full_name}-${element(data.aws_availability_zones.available-azs.names, count.index)}"
     "Tier" = "Private"
+    "Environment" = "${var.environment}"
   }
 }
 
@@ -101,6 +107,7 @@ resource "aws_nat_gateway" "main" {
 
   tags = {
     "Name" = "nat-${local.full_name}-${element(data.aws_availability_zones.available-azs.names, count.index)}"
+    "Environment" = "${var.environment}"
   }
 }
 
@@ -110,6 +117,8 @@ resource "aws_route_table" "private" {
 
   tags = {
     "Name" = "priv-${local.full_name}-rt"
+    "Tier" = "Private"
+    "Environment" = "${var.environment}"
   }
 }
 
