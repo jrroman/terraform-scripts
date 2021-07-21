@@ -13,10 +13,7 @@ provider "aws" {
 }
 
 locals {
-  product_tags = {
-    "Name"        = var.product_name
-    "Environment" = var.environment
-  }
+  full_name = "${var.product_name}-${var.environment}"
 }
 
 data "aws_availability_zones" "available-azs" {
@@ -33,7 +30,9 @@ resource "aws_vpc" "main" {
   cidr_block            = var.vpc_cidr
   enable_dns_hostnames  = true 
 
-  tags = local.product_tags
+  tags = {
+    "Name" = "${local.full_name}-vpc"
+  }
 }
 
 resource "aws_subnet" "public" {
@@ -44,7 +43,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
   
   tags = {
-    "Name" = "Public ${var.environment} subnet - ${element(data.aws_availability_zones.available-azs.names, count.index)}"
+    "Name" = "pub-${local.full_name}-${element(data.aws_availability_zones.available-azs.names, count.index)}"
     "Tier" = "Public"
   }
 }
@@ -52,14 +51,16 @@ resource "aws_subnet" "public" {
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
-  tags = local.product_tags
+  tags = {
+    "Name" = "${local.full_name}-igw"
+  }
 }
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    "Name" = "Public ${var.environment} Routing Table"
+    "Name" = "pub-${local.full_name}-rt"
   }
 }
 
@@ -83,7 +84,7 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = false
 
   tags = {
-    "Name" = "Private ${var.environment} subnet - ${element(data.aws_availability_zones.available-azs.names, count.index)}"
+    "Name" = "priv-${local.full_name}-${element(data.aws_availability_zones.available-azs.names, count.index)}"
     "Tier" = "Private"
   }
 }
@@ -99,7 +100,7 @@ resource "aws_nat_gateway" "main" {
   allocation_id = element(aws_eip.nat.*.id, count.index)
 
   tags = {
-    "Name" = "NAT  ${var.environment} - ${element(data.aws_availability_zones.available-azs.names, count.index)}"
+    "Name" = "nat-${local.full_name}-${element(data.aws_availability_zones.available-azs.names, count.index)}"
   }
 }
 
@@ -108,7 +109,7 @@ resource "aws_route_table" "private" {
   vpc_id  = aws_vpc.main.id
 
   tags = {
-    "Name" = "Private ${var.environment} Routing Table"
+    "Name" = "priv-${local.full_name}-rt"
   }
 }
 
